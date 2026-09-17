@@ -182,36 +182,8 @@ void sensor_set_rpm(Sensor *sensor, double rpm)
         return;
     }
     
-    if (sensor->valid_count < HISTORY_SIZE)
-    {
-        sensor->rpm_buffer[sensor->write_index] =
-            rpm;
-
-        sensor->rpm_sum += rpm;
-
-        sensor->valid_count++;
-    }
-    else
-    {
-        sensor->rpm_sum -= 
-            sensor->rpm_buffer[sensor->write_index];
-
-        sensor->rpm_buffer[sensor->write_index] =
-            rpm;
-
-        sensor->rpm_sum += rpm;
-    }
-
-    sensor->write_index++;
-
-    if (sensor->write_index >= HISTORY_SIZE)
-    {
-        sensor->write_index = 0;
-    }
-
-    //计算平均
-    sensor->average_rpm = 
-        sensor->rpm_sum / sensor->valid_count;
+    //更新转速buffer
+    sensor_update_buffer(sensor, rpm);
 
     //更新状态
     sensor_update_state(sensor);
