@@ -1,0 +1,4 @@
+alarm_rpm=1000.0 
+recovery_rpm=900.0 
+alarm_confirm=3 
+recovery_confirm=3
